@@ -51,36 +51,36 @@ body {
 /* home style */
 .home-container{
   display: grid;
-  grid-template-columns: 20% 60% 20%;
-  height: 80vh;
+  grid-template-columns: 30% 50% 20%;
+  height: 100vh;
+  margin-bottom: 5.5rem;
 }
 
 .section1{
-  background-color: white;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
 .section2 {
-  background-color: gray;
+  display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  background-color: gray;
 }
 
 .section3{
-  background-color: white;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
 /* footer style */
 .footer-container {
-  height: 50px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100%;
-  background-color: #4d4d4d;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
 }
 
 .footer-links a{

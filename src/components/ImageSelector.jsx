@@ -27,9 +27,6 @@ function ImageSelector({ imageURL }) {
         }
       });
     });
-
-    console.log('minY -->', minY)
-
     return { minX, minY, maxX, maxY };
   };
 
@@ -60,7 +57,7 @@ function ImageSelector({ imageURL }) {
             alt="Selected Image"
             style={{
               position: 'absolute',
-              top: `${minY - 473}px`,
+              top: `${(minY* 10) - 500}px`,
               left: `${minX * 10}px`,
               width: `${selectedWidth}px`,
               height: `${selectedHeight}px`,

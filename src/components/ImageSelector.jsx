@@ -1,21 +1,7 @@
 import React, { useState } from 'react';
+import Square from './Square';
 
-function Square(props) {
-  return (
-    <div
-      className="square"
-      style={{
-        width: '10px',
-        height: '10px',
-        backgroundColor: props.selected ? 'red' : 'white',
-        border: '1px solid black',
-      }}
-      onClick={() => props.onClick(props.row, props.col)}
-    />
-  );
-}
-
-function ImageSelector({imageURL}) {
+function ImageSelector({ imageURL }) {
   const [selectedSquares, setSelectedSquares] = useState(Array(50).fill(Array(50).fill(false)));
 
   const handleClick = (row, col) => {
@@ -24,6 +10,33 @@ function ImageSelector({imageURL}) {
     );
     setSelectedSquares(updatedSelectedSquares);
   };
+
+  const calculateSelectedArea = () => {
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    selectedSquares.forEach((row, rowIndex) => {
+      row.forEach((selected, colIndex) => {
+        if (selected) {
+          minX = Math.min(minX, colIndex);
+          minY = Math.min(minY, rowIndex);
+          maxX = Math.max(maxX, colIndex);
+          maxY = Math.max(maxY, rowIndex);
+        }
+      });
+    });
+
+    console.log('minY -->', minY)
+
+    return { minX, minY, maxX, maxY };
+  };
+
+  const { minX, minY, maxX, maxY } = calculateSelectedArea();
+
+  const selectedWidth = (maxX - minX + 1) * 10;
+  const selectedHeight = (maxY - minY + 1) * 10;
 
   return (
     <div className="image-selector">
@@ -42,34 +55,18 @@ function ImageSelector({imageURL}) {
       ))}
       {imageURL && (
         <div style={{ position: 'relative' }}>
-          {selectedSquares.map((row, rowIndex) => (
-            <div key={rowIndex} style={{ display: 'flex' }}>
-              {row.map((selected, colIndex) => (
-                <div
-                  key={`${rowIndex}-${colIndex}`}
-                  style={{
-                    width: '10px',
-                    height: '10px',
-                    position: 'relative',
-                  }}
-                >
-                  {selected && (
-                    <img
-                      src={imageURL}
-                      alt="Selected Image"
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '10px',
-                        height: '10px',
-                      }}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
+          <img
+            src={imageURL}
+            alt="Selected Image"
+            style={{
+              position: 'absolute',
+              top: `${minY - 473}px`,
+              left: `${minX * 10}px`,
+              width: `${selectedWidth}px`,
+              height: `${selectedHeight}px`,
+              zIndex: 1,
+            }}
+          />
         </div>
       )}
     </div>

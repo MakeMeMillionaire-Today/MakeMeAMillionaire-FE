@@ -15,9 +15,8 @@ function Square(props) {
   );
 }
 
-function ImageSelector() {
+function ImageSelector({imageURL}) {
   const [selectedSquares, setSelectedSquares] = useState(Array(50).fill(Array(50).fill(false)));
-  const [imageURL, setImageURL] = useState('');
 
   const handleClick = (row, col) => {
     const updatedSelectedSquares = selectedSquares.map((rowArray, rowIndex) =>
@@ -26,18 +25,8 @@ function ImageSelector() {
     setSelectedSquares(updatedSelectedSquares);
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImageURL(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
   return (
     <div className="image-selector">
-      <input type="file" accept="image/*" onChange={handleImageUpload} />
       {selectedSquares.map((row, rowIndex) => (
         <div key={rowIndex} style={{ display: 'flex' }}>
           {row.map((selected, colIndex) => (

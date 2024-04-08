@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Square from './Square';
+import useImageStore from '../zustand/UseImageStore';
 
 function ImageSelector({ imageURL }) {
-  const [selectedSquares, setSelectedSquares] = useState(Array(50).fill(Array(50).fill(false)));
+  const selectedSquares = useImageStore((state) => state.selectedSquares);
+  const setSelectedSquares = useImageStore((state) => state.setSelectedSquares);
+  const setImageArea = useImageStore((state) => state.setImageArea);
 
   const handleClick = (row, col) => {
     const updatedSelectedSquares = selectedSquares.map((rowArray, rowIndex) =>
@@ -35,6 +38,7 @@ function ImageSelector({ imageURL }) {
   const selectedWidth = (maxX - minX + 1) * 10;
   const selectedHeight = (maxY - minY + 1) * 10;
 
+
   return (
     <div className="image-selector">
       {selectedSquares.map((row, rowIndex) => (
@@ -57,7 +61,7 @@ function ImageSelector({ imageURL }) {
             alt="Selected Image"
             style={{
               position: 'absolute',
-              top: `${(minY* 10) - 500}px`,
+              top: `${(minY * 10) - 500}px`,
               left: `${minX * 10}px`,
               width: `${selectedWidth}px`,
               height: `${selectedHeight}px`,

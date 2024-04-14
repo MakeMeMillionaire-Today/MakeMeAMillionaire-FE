@@ -8,11 +8,10 @@ body {
   font-family: 'segoe ui';
 }
 
-.nav {
+/* .nav {
   height: 50px;
   width: 100%;
   background-color: #4d4d4d;
-  /* position: relative; */
 }
 
 .nav > .nav-header {
@@ -46,7 +45,7 @@ body {
 
 .nav > #nav-check {
   display: none;
-}
+} */
 
 /* home style */
 .home-container{

@@ -1,7 +1,7 @@
 import React from "react";
 import { rtConnection } from "../service/socket";
 
-const SIZE = 10;
+const SIZE = 20;
 
 const MainCanvas = ({ matrix, imageURL }) => {
   // Handle area:

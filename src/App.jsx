@@ -1,26 +1,21 @@
-import {Routes ,Route} from "react-router-dom"
-import Navbar from "./components/Navbar"
-import Home from "./components/Home"
-import Footer from './components/Footer'
-import "./service/socket"
-
-import "./App.css"
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import "./service/socket";
 
 function App() {
-
+  const [imageURL, setImageURL] = useState("");
   return (
     <>
-      <div>
-        <Navbar/>
-      </div>
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home imageURL={imageURL} />} />
       </Routes>
       <div>
-        <Footer />
+        <Navbar imageURL={setImageURL} />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

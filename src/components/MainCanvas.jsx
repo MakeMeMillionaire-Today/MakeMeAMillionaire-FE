@@ -1,7 +1,7 @@
 import React from "react";
 import { rtConnection } from "../service/socket";
 
-const SIZE = 20;
+const SIZE = 10;
 
 const MainCanvas = ({ matrix, imageURL }) => {
   // Handle area:
@@ -49,7 +49,7 @@ const MainCanvas = ({ matrix, imageURL }) => {
               width: SIZE + "px",
               height: SIZE + "px",
               border: "1px solid black",
-              color: colItem === 1 ? "red" : "black",
+              background: colItem === 1 ? "red" : "white",
             }}
             onClick={handleClick(y, x)}
           >
@@ -59,7 +59,10 @@ const MainCanvas = ({ matrix, imageURL }) => {
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "10px",
+                color: "white",
                 marginBottom: "5px",
+                overflow: "hidden",
+                visibility: "hidden",
               }}
             >
               {colItem}

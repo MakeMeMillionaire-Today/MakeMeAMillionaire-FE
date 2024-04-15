@@ -69,7 +69,7 @@ export default function Navbar() {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img className="h-12 w-40" src={mmmLogo} alt="" />
+            <img className="h-12 w-32" src={mmmLogo} alt="" />
           </a>
         </div>
         <div className="flex lg:hidden">

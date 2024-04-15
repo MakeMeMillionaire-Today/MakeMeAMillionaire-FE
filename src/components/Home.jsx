@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { MainCanvas } from "./MainCanvas";
 import { rtConnection } from "../service/socket";
+import Chat from "./Chat";
+import mmmLogo from "../assets/mmmLogo.png";
 
 const Home = () => {
   const [imageURL, setImageURL] = useState("");
@@ -22,12 +24,15 @@ const Home = () => {
   return (
     <div className="grid grid-cols-3">
       <div className="col-span-1">
-        <div className="grid grid-cols-1">
-          chat zone
-          <div className="flex items-center justify-center w-full mt-96">
+        <div className="grid grid-cols-1 gap-4 ">
+          <div className="flex justify-center">
+            <img class="rounded max-w-sm h-20" src={mmmLogo} alt="Extra large avatar" />
+          </div>
+          <Chat />
+          <div className="flex items-center justify-center w-full ">
             <label
               for="dropzone-file"
-              className="flex flex-col items-center justify-center w-96 h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              className="flex flex-col items-center justify-center w-96 h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg

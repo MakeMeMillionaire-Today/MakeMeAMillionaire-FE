@@ -2,24 +2,24 @@ import React from "react";
 import { rtConnection } from "../service/socket";
 
 const SIZE = 10;
+const MOCKED_IMG =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABLSURBVChTjY4BCgAgCAN7S+/ps73QWDSZotDByOg0hyXmXq+KXBGPFPTUJp+YBZVQt6LWyNALoxIJO+Yo4etOAi6SSgLljlU+J5odBf04nLbgNmAAAAAASUVORK5CYII=";
 
 const MainCanvas = ({ matrix, imageURL }) => {
   // Handle area:
   const handleClick = (row, col) => () => {
-    /*
     rtConnection.emit("/canvas/update", {
       x: col,
       y: row,
-      content: 1,
+      image: MOCKED_IMG,
     });
-    */
   };
   // Calculate area:
   const calculateSelectedArea = () => {
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = -Infinity;
-    let maxY = -Infinity;
+    let minX;
+    let minY;
+    let maxX;
+    let maxY;
 
     matrix.forEach((row, rowIndex) => {
       row.forEach((selected, colIndex) => {
@@ -52,11 +52,10 @@ const MainCanvas = ({ matrix, imageURL }) => {
               height: SIZE + "px",
               border: "1px solid black",
               backgroundImage: `url(${colItem?.image})`,
-              backgroundSize: 'contain',
+              backgroundSize: "contain",
             }}
             onClick={handleClick(y, x)}
-          >
-          </div>
+          ></div>
         ))
       )}
       {imageURL && (

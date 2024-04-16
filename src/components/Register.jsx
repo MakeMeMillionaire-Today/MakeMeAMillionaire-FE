@@ -1,14 +1,54 @@
-import ButtonFile from "./ButtonFile";
+import { useState } from "react";
 
 const Register = () => {
+  const [email, setEmail] = useState('');
+  const [username, setUser] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleUserChange = (event) => {
+    setUser(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, username, password }),
+      });
+
+      if (response.ok) {
+        console.log('Registro exitoso');
+      } else {
+        console.error('Error en el registro');
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud:', error);
+    }
+  };
+
+
   return (
-    <form className="max-w-md mx-auto mt-12">
+    <form className="max-w-md mx-auto mt-12" onSubmit={handleSubmit}>
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="email"
           name="floating_email"
           id="floating_email"
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          value={email}
+          onChange={handleEmailChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
           required
         />
@@ -24,7 +64,9 @@ const Register = () => {
           type="user"
           name="repeat_user"
           id="floating_repeat_user"
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          value={username}
+          onChange={handleUserChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
           required
         />
@@ -40,7 +82,9 @@ const Register = () => {
           type="password"
           name="floating_password"
           id="floating_password"
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          value={password}
+          onChange={handlePasswordChange}
+          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
           required
         />
@@ -81,7 +125,6 @@ const Register = () => {
               id="dropzone-file"
               type="file"
               accept="image/*"
-              // onChange={handleImageUpload}
               class="hidden"
             />
           </label>

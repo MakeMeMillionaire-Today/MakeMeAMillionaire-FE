@@ -6,11 +6,13 @@ const SIZE = 10;
 const MainCanvas = ({ matrix, imageURL }) => {
   // Handle area:
   const handleClick = (row, col) => () => {
+    /*
     rtConnection.emit("/canvas/update", {
       x: col,
       y: row,
       content: 1,
     });
+    */
   };
   // Calculate area:
   const calculateSelectedArea = () => {
@@ -49,24 +51,11 @@ const MainCanvas = ({ matrix, imageURL }) => {
               width: SIZE + "px",
               height: SIZE + "px",
               border: "1px solid black",
-              background: colItem === 1 ? "red" : "white",
+              backgroundImage: `url(${colItem?.image})`,
+              backgroundSize: 'contain',
             }}
             onClick={handleClick(y, x)}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "10px",
-                color: "white",
-                marginBottom: "5px",
-                overflow: "hidden",
-                visibility: "hidden",
-              }}
-            >
-              {colItem}
-            </div>
           </div>
         ))
       )}

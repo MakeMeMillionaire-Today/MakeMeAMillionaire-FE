@@ -1,9 +1,42 @@
+import React, { useState } from 'react';
+
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
+    try {
+      const response = await fetch('URL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (response.ok) {
+        console.log('Login exitoso');
+      } else {
+        console.error('Error en el login');
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud:', error);
+    }
+  };
+
   return (
-    <form className="max-w-sm mx-auto mt-12">
+    <form className="max-w-sm mx-auto mt-12" onSubmit={handleSubmit}>
       <div className="mb-5">
         <label
-          for="email"
+          htmlFor="email"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Your email
@@ -11,6 +44,8 @@ function Login() {
         <input
           type="email"
           id="email"
+          value={email}
+          onChange={handleEmailChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="name@gmail.com"
           required
@@ -18,7 +53,7 @@ function Login() {
       </div>
       <div className="mb-5">
         <label
-          for="password"
+          htmlFor="password"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Your password
@@ -26,6 +61,8 @@ function Login() {
         <input
           type="password"
           id="password"
+          value={password}
+          onChange={handlePasswordChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           required
         />
@@ -64,4 +101,5 @@ function Login() {
     </form>
   );
 }
+
 export default Login;

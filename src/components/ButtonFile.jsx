@@ -33,7 +33,7 @@ const ButtonFile = () => {
               id="dropzone-file"
               type="file"
               accept="image/*"
-              onChange={handleImageUpload}
+              // onChange={handleImageUpload}
               class="hidden"
             />
           </label>

@@ -78,7 +78,7 @@ const MainCanvas = ({ matrix, imageURL }) => {
         </div>
       )} */}
       {
-        showModal && <ModalPaint showModal={setShowModal} col={modalY} row={modalX} />
+        showModal && <ModalPaint showModal={setShowModal} col={modalX} row={modalY} />
       }
       
     </div>

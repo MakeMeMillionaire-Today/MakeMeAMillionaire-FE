@@ -32,7 +32,6 @@ const ModalPaint = ({ showModal, col, row }) => {
     const canvas = canvasRef.current;
     const image = canvas.toDataURL("image/png");
     setPaintImg(image);
-    handleCloseModal();
   };
 
   const handleCloseModal = () => {
@@ -43,11 +42,13 @@ const ModalPaint = ({ showModal, col, row }) => {
   useEffect(() => {
     const sendImageData = () => {
       if (paintImg !== "") {
+        console.log('debug --->', row, col, paintImg)
         rtConnection.emit("/canvas/update", {
           y: row,
           x: col,
           image: paintImg,
         });
+        alert("the canvas has been saved!")
       }
     };
     sendImageData();

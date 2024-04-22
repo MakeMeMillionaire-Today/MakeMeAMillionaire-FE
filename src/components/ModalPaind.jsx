@@ -48,7 +48,7 @@ const ModalPaint = ({ showModal, col, row }) => {
     const reader = new FileReader();
     reader.onload = () => {
       const base64Image = reader.result?.split(",")[1];
-      setImageURL(base64Image); // Mover esta línea aquí
+      setImageURL(base64Image);
     };
     reader.readAsDataURL(file);
   };
@@ -60,14 +60,24 @@ const ModalPaint = ({ showModal, col, row }) => {
   // handle data to backend:
   useEffect(() => {
     const sendImageData = () => {
-      if (paintImg !== "" || imageURL !== "") {
+      if (imageURL){
         rtConnection.emit("/canvas/update", {
           y: row,
           x: col,
-          image: paintImg ? paintImg : imageURL,
+          image: imageURL,
         });
-        alert("the canvas has been saved!");
+        alert("the image has been saved!");
         handleCloseModal();
+      } else {
+        if (paintImg !== "") {
+          rtConnection.emit("/canvas/update", {
+            y: row,
+            x: col,
+            image: paintImg,
+          });
+          alert("the canvas has been saved!");
+          handleCloseModal();
+        }
       }
     };
     sendImageData();
@@ -96,7 +106,7 @@ const ModalPaint = ({ showModal, col, row }) => {
                   className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
                 >
                   <span className="block px-1 pt-1 pb-1">
-                    <i className="far fa-home text-2xl pt-1 mb-1 block"></i>
+                    <i className="far fa-magic text-2xl pt-1 mb-1 block"></i>
                     <span className="block text-xs pb-2">Clear</span>
                     <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
                   </span>
@@ -105,7 +115,7 @@ const ModalPaint = ({ showModal, col, row }) => {
               <div className="flex-1 group">
                 <div className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500">
                   <label className="block px-1 pt-1 pb-1">
-                    <i className="far fa-compass text-2xl pt-1 mb-1 block"></i>
+                    <i className="far fa-cloud-upload text-2xl pt-1 mb-1 block"></i>
                     <span className="block text-xs pb-2">Upload</span>
                     <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
                     <input
@@ -124,7 +134,7 @@ const ModalPaint = ({ showModal, col, row }) => {
                   className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
                 >
                   <span className="block px-1 pt-1 pb-1">
-                    <i className="far fa-search text-2xl pt-1 mb-1 block"></i>
+                    <i className="far fa-times-circle text-2xl pt-1 mb-1 block"></i>
                     <span className="block text-xs pb-2">Close</span>
                     <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
                   </span>
@@ -136,7 +146,7 @@ const ModalPaint = ({ showModal, col, row }) => {
                   className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
                 >
                   <span className="block px-1 pt-1 pb-1">
-                    <i className="far fa-cog text-2xl pt-1 mb-1 block"></i>
+                    <i className="far fa-share-square text-2xl pt-1 mb-1 block"></i>
                     <span className="block text-xs pb-2">Save</span>
                     <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
                   </span>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { rtConnection } from "../service/socket";
 import ModalPaint from "./ModalPaind";
 
-const SIZE = 10;
+const SIZE = 20;
 const MOCKED_IMG =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABLSURBVChTjY4BCgAgCAN7S+/ps73QWDSZotDByOg0hyXmXq+KXBGPFPTUJp+YBZVQt6LWyNALoxIJO+Yo4etOAi6SSgLljlU+J5odBf04nLbgNmAAAAAASUVORK5CYII=";
 

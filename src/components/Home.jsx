@@ -5,31 +5,31 @@ import Chat from "./Chat";
 import mmmLogo from "../assets/mmmLogo.png";
 
 const Home = () => {
-  const [imageURL, setImageURL] = useState("");
+  // const [imageURL, setImageURL] = useState("");
   const [matrix, setMatrix] = useState([[]]);
 
   rtConnection.on("/canvas", (data) => {
     setMatrix(data);
   });
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImageURL(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
+  // const handleImageUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     setImageURL(reader.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
-  const handleImage = () => {
-    // Convierte la imagen en base64
-    const base64Image = imageURL.split(",")[1]; // Extrae la parte base64 de la URL
-    console.log('base64Image ->', base64Image)
-    // Envía la imagen en base64 al backend
-    rtConnection.emit("/canvas/updateImg", {
-      img: base64Image,
-    });
-  };
+  // const handleImage = () => {
+  //   // Convierte la imagen en base64
+  //   const base64Image = imageURL.split(",")[1]; // Extrae la parte base64 de la URL
+  //   console.log('base64Image ->', base64Image)
+  //   // Envía la imagen en base64 al backend
+  //   rtConnection.emit("/canvas/updateImg", {
+  //     img: base64Image,
+  //   });
+  // };
 
   return (
     <div className="grid grid-cols-3">
@@ -39,7 +39,7 @@ const Home = () => {
             <img class="rounded max-w-sm h-20" src={mmmLogo} alt="Extra large avatar" />
           </div>
           <Chat />
-          {
+          {/* {
             imageURL ? (
               <button 
                 className="flex flex-col items-center justify-center w-96 h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -86,11 +86,11 @@ const Home = () => {
                 </label>
               </div>
             )
-          }
+          } */}
         </div>
       </div>
       <div className="col-span-2">
-        <MainCanvas matrix={matrix} imageURL={imageURL} />
+        <MainCanvas matrix={matrix} />
       </div>
     </div>
   );

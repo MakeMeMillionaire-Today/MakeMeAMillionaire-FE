@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { rtConnection } from "../service/socket";
 
+
 const ModalPaint = ({ showModal, col, row }) => {
   const [paintImg, setPaintImg] = useState("");
   const [imageURL, setImageURL] = useState("");

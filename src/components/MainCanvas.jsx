@@ -3,27 +3,27 @@ import { rtConnection } from "../service/socket";
 import ModalPaint from "./ModalPaind";
 
 const SIZE = 20;
-const MOCKED_IMG =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABLSURBVChTjY4BCgAgCAN7S+/ps73QWDSZotDByOg0hyXmXq+KXBGPFPTUJp+YBZVQt6LWyNALoxIJO+Yo4etOAi6SSgLljlU+J5odBf04nLbgNmAAAAAASUVORK5CYII=";
-
 const MainCanvas = ({ matrix, imageURL }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalX, setModalX] = useState(null);
   const [modalY, setModalY] = useState(null);
-  
   // Handle area:
   const handleClick = (row, col) => () => {
     setModalY(row);
     setModalX(col);
     setShowModal(true)
   };
+
+  /****
+   * This code belongs to the logic of finding a selected area. 
+   * It will be used in the future for a new view.
+  */
   // Calculate area:
   // const calculateSelectedArea = () => {
   //   let minX;
   //   let minY;
   //   let maxX;
   //   let maxY;
-
   //   matrix.forEach((row, rowIndex) => {
   //     row.forEach((selected, colIndex) => {
   //       if (selected) {
@@ -34,7 +34,6 @@ const MainCanvas = ({ matrix, imageURL }) => {
   //       }
   //     });
   //   });
-
   //   return { minX, minY, maxX, maxY };
   // };
   // const { minX, minY, maxX, maxY } = calculateSelectedArea();
@@ -47,13 +46,14 @@ const MainCanvas = ({ matrix, imageURL }) => {
         row.map((colItem, x) => (
           <div
             key={`${x}-${y}`}
+            className="square"
             style={{
               position: "absolute",
               top: y * SIZE + "px",
               left: x * SIZE + "px",
               width: SIZE + "px",
               height: SIZE + "px",
-              border: "1px solid black",
+              border: "1px dashed gray",
               backgroundImage: `url(${colItem?.image})`,
               backgroundSize: "contain",
             }}
@@ -61,26 +61,9 @@ const MainCanvas = ({ matrix, imageURL }) => {
           />
         ))
       )}
-      {/* {imageURL && (
-        <div style={{ position: "relative" }}>
-          <img
-            src={imageURL}
-            alt="Selected Image"
-            style={{
-              position: "absolute",
-              top: `${minY * 10}px`,
-              left: `${minX * 10}px`,
-              width: `${selectedWidth}px`,
-              height: `${selectedHeight}px`,
-              zIndex: 1,
-            }}
-          />
-        </div>
-      )} */}
       {
         showModal && <ModalPaint showModal={setShowModal} col={modalX} row={modalY} />
       }
-      
     </div>
   );
 };

@@ -15,6 +15,9 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import mmmLogo from "../assets/mmmLogo.png";
+import { useAuth0 } from "@auth0/auth0-react";
+import Profile from "./Profile";
+
 
 const products = [
   {
@@ -58,6 +61,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const { loginWithRedirect, logout, isAuthenticated} = useAuth0();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -154,9 +158,14 @@ export default function Navbar() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          <Profile />
+          {
+            isAuthenticated ? (
+              <button className="text-sm font-semibold leading-6 text-gray-900" onClick={() => logout()} >Log Out</button>
+            ) : (
+              <button className="text-sm font-semibold leading-6 text-gray-900" onClick={() => loginWithRedirect()}>Log In</button>
+            )
+          }
         </div>
       </nav>
       <Dialog

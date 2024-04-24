@@ -1,23 +1,27 @@
 import React, { useState } from "react";
-import { rtConnection } from "../service/socket";
 import ModalPaint from "./ModalPaind";
 
 const SIZE = 20;
-const MainCanvas = ({ matrix, imageURL }) => {
+const MainCanvas = ({ matrix }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalX, setModalX] = useState(null);
   const [modalY, setModalY] = useState(null);
+  const [dataItem, setDataItem] = useState({});
+
   // Handle area:
-  const handleClick = (row, col) => () => {
-    setModalY(row);
-    setModalX(col);
-    setShowModal(true)
-  };
+  const handleClick =
+    ({ row, col, colItem }) =>
+    () => {
+      setDataItem(colItem);
+      setModalY(row);
+      setModalX(col);
+      setShowModal(true);
+    };
 
   /****
-   * This code belongs to the logic of finding a selected area. 
+   * This code belongs to the logic of finding a selected area.
    * It will be used in the future for a new view.
-  */
+   */
   // Calculate area:
   // const calculateSelectedArea = () => {
   //   let minX;
@@ -57,13 +61,18 @@ const MainCanvas = ({ matrix, imageURL }) => {
               backgroundImage: `url(${colItem?.image})`,
               backgroundSize: "contain",
             }}
-            onClick={handleClick(y, x)}
+            onClick={handleClick({ row: y, col: x, colItem })}
           />
         ))
       )}
-      {
-        showModal && <ModalPaint showModal={setShowModal} col={modalX} row={modalY} />
-      }
+      {showModal && (
+        <ModalPaint
+          showModal={setShowModal}
+          col={modalX}
+          row={modalY}
+          dataItem={dataItem}
+        />
+      )}
     </div>
   );
 };

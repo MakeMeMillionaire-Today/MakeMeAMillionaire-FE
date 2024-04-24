@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { rtConnection } from "../service/socket";
 
-
-const ModalPaint = ({ showModal, col, row }) => {
+const ModalPaint = ({ showModal, col, row, dataItem }) => {
   const [paintImg, setPaintImg] = useState("");
   const [imageURL, setImageURL] = useState("");
-  console.log('imageURL ->', imageURL)
 
   const canvasRef = useRef(null);
   let isDrawing = false;
@@ -57,10 +55,25 @@ const ModalPaint = ({ showModal, col, row }) => {
     showModal(false);
   };
 
+  // Conditional rendering of content (image or canvas)
+  const content = dataItem?.image ? (
+    <img src={dataItem.image} alt="Previous Image" />
+  ) : (
+    <canvas
+      ref={canvasRef}
+      width={200}
+      height={200}
+      onMouseDown={startDrawing}
+      onMouseMove={draw}
+      onMouseUp={stopDrawing}
+      style={{ border: "1px solid black", cursor: "crosshair" }}
+    />
+  );
+
   // handle data to backend:
   useEffect(() => {
     const sendImageData = () => {
-      if (imageURL){
+      if (imageURL) {
         rtConnection.emit("/canvas/update", {
           y: row,
           x: col,
@@ -86,73 +99,86 @@ const ModalPaint = ({ showModal, col, row }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
       <div className="bg-white p-5 rounded flex flex-col justify-center item-center gap-5">
-        <div className="flex justify-center items-center">
-          <canvas
-            ref={canvasRef}
-            width={200}
-            height={200}
-            onMouseDown={startDrawing}
-            onMouseMove={draw}
-            onMouseUp={stopDrawing}
-            style={{ border: "1px solid black", cursor: "crosshair" }}
-          />
-        </div>
+        <div className="flex justify-center items-center">{content}</div>
         <div className="w-full max-w-md mx-auto">
           <div className="px-7 bg-white shadow-lg rounded-2xl">
-            <div className="flex">
-              <div className="flex-1 group">
-                <button
-                  onClick={cleanCanvas}
-                  className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
+            {dataItem?.image ? (
+              <>
+                <div
+                  className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+                  role="alert"
                 >
-                  <span className="block px-1 pt-1 pb-1">
-                    <i className="far fa-magic text-2xl pt-1 mb-1 block"></i>
-                    <span className="block text-xs pb-2">Clear</span>
-                    <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
-                  </span>
-                </button>
-              </div>
-              <div className="flex-1 group">
-                <div className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500">
-                  <label className="block px-1 pt-1 pb-1">
-                    <i className="far fa-cloud-upload text-2xl pt-1 mb-1 block"></i>
-                    <span className="block text-xs pb-2">Upload</span>
-                    <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
-                    <input
-                      id="dropzone-file"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </label>
+                  <span className="font-medium">Sorry!</span> art existing...
+                </div>
+                <div className="flex-1 group">
+                  <button
+                    onClick={handleCloseModal}
+                    className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
+                  >
+                    <span className="block px-1 pt-1 pb-1">
+                      <i className="far fa-times-circle text-2xl pt-1 mb-1 block"></i>
+                      <span className="block text-xs pb-2">Close</span>
+                      <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
+                    </span>
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="flex">
+                <div className="flex-1 group">
+                  <button
+                    onClick={cleanCanvas}
+                    className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
+                  >
+                    <span className="block px-1 pt-1 pb-1">
+                      <i className="far fa-magic text-2xl pt-1 mb-1 block"></i>
+                      <span className="block text-xs pb-2">Clear</span>
+                      <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
+                    </span>
+                  </button>
+                </div>
+                <div className="flex-1 group">
+                  <div className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500">
+                    <label className="block px-1 pt-1 pb-1">
+                      <i className="far fa-cloud-upload text-2xl pt-1 mb-1 block"></i>
+                      <span className="block text-xs pb-2">Upload</span>
+                      <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
+                      <input
+                        id="dropzone-file"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="flex-1 group">
+                  <button
+                    onClick={handleCloseModal}
+                    className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
+                  >
+                    <span className="block px-1 pt-1 pb-1">
+                      <i className="far fa-times-circle text-2xl pt-1 mb-1 block"></i>
+                      <span className="block text-xs pb-2">Close</span>
+                      <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
+                    </span>
+                  </button>
+                </div>
+                <div className="flex-1 group">
+                  <button
+                    onClick={exportImage}
+                    className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
+                  >
+                    <span className="block px-1 pt-1 pb-1">
+                      <i className="far fa-share-square text-2xl pt-1 mb-1 block"></i>
+                      <span className="block text-xs pb-2">Save</span>
+                      <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
+                    </span>
+                  </button>
                 </div>
               </div>
-              <div className="flex-1 group">
-                <button
-                  onClick={handleCloseModal}
-                  className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
-                >
-                  <span className="block px-1 pt-1 pb-1">
-                    <i className="far fa-times-circle text-2xl pt-1 mb-1 block"></i>
-                    <span className="block text-xs pb-2">Close</span>
-                    <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
-                  </span>
-                </button>
-              </div>
-              <div className="flex-1 group">
-                <button
-                  onClick={exportImage}
-                  className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
-                >
-                  <span className="block px-1 pt-1 pb-1">
-                    <i className="far fa-share-square text-2xl pt-1 mb-1 block"></i>
-                    <span className="block text-xs pb-2">Save</span>
-                    <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
-                  </span>
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { rtConnection } from "../service/socket";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const ModalPaint = ({ showModal, col, row, dataItem }) => {
+  const { user, isAuthenticated } = useAuth0();
   const [paintImg, setPaintImg] = useState("");
   const [imageURL, setImageURL] = useState("");
 
@@ -55,6 +57,10 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
     showModal(false);
   };
 
+  const messageLogin = () => {
+    return alert("Pleace! Log In!");
+  }
+
   // Conditional rendering of content (image or canvas)
   const content = dataItem?.image ? (
     <img src={dataItem.image} alt="Previous Image" />
@@ -77,7 +83,8 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
         rtConnection.emit("/canvas/update", {
           y: row,
           x: col,
-          image: imageURL,
+          userName: user.name,
+          email: user.email,
         });
         alert("the image has been saved!");
         handleCloseModal();
@@ -87,6 +94,8 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
             y: row,
             x: col,
             image: paintImg,
+            userName: user.name,
+            email: user.email,
           });
           alert("the canvas has been saved!");
           handleCloseModal();
@@ -108,7 +117,8 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
                   className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
                   role="alert"
                 >
-                  <span className="font-medium">Sorry!</span> art existing...
+                  <span className="font-medium">Sorry!</span> art existing...{" "}
+                  <span className="font-medium">Created for:</span> {dataItem.userName}
                 </div>
                 <div className="flex-1 group">
                   <button
@@ -167,7 +177,7 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
                 </div>
                 <div className="flex-1 group">
                   <button
-                    onClick={exportImage}
+                    onClick={isAuthenticated ? exportImage : messageLogin}
                     className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
                   >
                     <span className="block px-1 pt-1 pb-1">

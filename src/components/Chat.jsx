@@ -1,16 +1,50 @@
-const Chat = () => {
+import { useState, useEffect } from 'react';
+import { rtConnection } from "../service/socket";
+// import { LiMensaje, UlMensajes } from './ui-components';
+
+function Chat() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [nuevoMensaje, setNuevoMensaje] = useState('');
+  const [mensajes, setMensajes] = useState([]);
+
+  useEffect(() => {
+    rtConnection.on('connect', () => setIsConnected(true));
+    rtConnection.on('chat_message', (data) => {
+      setMensajes(mensajes => [...mensajes, data]);
+    });
+    return () => {
+      rtConnection.off('connect');
+      rtConnection.off('chat_message');
+    }
+  }, []);
+
+  const enviarMensaje = () => {
+    rtConnection.emit('chat_message', {
+      usuario: rtConnection.id,
+      mensaje: nuevoMensaje
+    });
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center w-100 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-      <div
-        class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
-        role="alert"
-      >
-        <span class="font-medium">Hello!</span> chat in progress...
-      </div>
-      <p class="font-normal text-gray-700 dark:text-gray-400">
-        Get ready for the next chat! Let's connect differently.
-      </p>
+    <div className="App">
+      <h2>{isConnected ? 'ONLINE:' : 'OFFLINE:'}</h2>
+      {/* <UlMensajes> */}
+        {mensajes.map(mensaje => (
+          // <LiMensaje>
+          <div>
+            {mensaje.usuario}: {mensaje.mensaje}
+          </div>
+            // </LiMensaje>
+        ))}
+      {/* </UlMensajes> */}
+      <input
+        type="text"
+        onChange={e => setNuevoMensaje(e.target.value)}
+      />
+      <button onClick={enviarMensaje}>Enviar</button>
     </div>
   );
-};
+}
+
 export default Chat;
+

@@ -147,13 +147,13 @@ export default function Navbar() {
             </Transition>
           </Popover>
 
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/error" className="text-sm font-semibold leading-6 text-gray-900">
             Space List
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/error" className="text-sm font-semibold leading-6 text-gray-900">
             FUQ
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/error" className="text-sm font-semibold leading-6 text-gray-900">
             Resources
           </a>
         </Popover.Group>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { rtConnection } from "../service/socket";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Chat() {
+  const { user, isAuthenticated} = useAuth0();
   const [isConnected, setIsConnected] = useState(false);
   const [newMessaje, setNewMessaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
@@ -9,7 +11,7 @@ function Chat() {
 
   const sendMessaje = () => {
     rtConnection.emit("chat_message", {
-      usuario: rtConnection.id,
+      usuario: user.name || rtConnection.id,
       mensaje: newMessaje,
     });
     setNewMessaje("");
@@ -19,6 +21,9 @@ function Chat() {
       sendMessaje();
     }
   };
+  const messageLogin = () => {
+    return alert("Pleace! Log In!");
+  }
   //-> scroll down every time messages are updated:
   useEffect(() => {
     if (chatboxRef.current) {
@@ -69,7 +74,7 @@ function Chat() {
           <button
             id="send-button"
             class="bg-fuchsia-900 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
-            onClick={sendMessaje}
+            onClick={isAuthenticated ? sendMessaje : messageLogin}
           >
             Send
           </button>

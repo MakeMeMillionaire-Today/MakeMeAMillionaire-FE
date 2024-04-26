@@ -18,42 +18,41 @@ import mmmLogo from "../assets/mmmLogo.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "./Profile";
 
-
 const products = [
   {
     name: "Analytics",
     description: "Get a better understanding of your traffic",
-    href: "#",
+    href: "/error",
     icon: ChartPieIcon,
   },
   {
     name: "Engagement",
     description: "Speak directly to your customers",
-    href: "#",
+    href: "/error",
     icon: CursorArrowRaysIcon,
   },
   {
     name: "Security",
     description: "Your customers’ data will be safe and secure",
-    href: "#",
+    href: "/error",
     icon: FingerPrintIcon,
   },
   {
     name: "Integrations",
     description: "Connect with third-party tools",
-    href: "#",
+    href: "/error",
     icon: SquaresPlusIcon,
   },
   {
     name: "Automations",
     description: "Build strategic funnels that will convert",
-    href: "#",
+    href: "/error",
     icon: ArrowPathIcon,
   },
 ];
 const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
+  { name: "Watch demo", href: "/error", icon: PlayCircleIcon },
+  { name: "Contact sales", href: "/error", icon: PhoneIcon },
 ];
 
 function classNames(...classes) {
@@ -61,7 +60,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const { loginWithRedirect, logout, isAuthenticated} = useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -147,25 +146,42 @@ export default function Navbar() {
             </Transition>
           </Popover>
 
-          <a href="/error" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="/error"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             Space List
           </a>
-          <a href="/error" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="/error"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             FUQ
           </a>
-          <a href="/error" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="/error"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             Resources
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Profile />
-          {
-            isAuthenticated ? (
-              <button className="text-sm font-semibold leading-6 text-gray-900" onClick={() => logout()} >Log Out</button>
-            ) : (
-              <button className="text-sm font-semibold leading-6 text-gray-900" onClick={() => loginWithRedirect()}>Log In</button>
-            )
-          }
+          {isAuthenticated ? (
+            <button
+              className="text-sm font-semibold leading-6 text-gray-900"
+              onClick={() => logout()}
+            >
+              Log Out
+            </button>
+          ) : (
+            <button
+              className="text-sm font-semibold leading-6 text-gray-900"
+              onClick={() => loginWithRedirect()}
+            >
+              Log In
+            </button>
+          )}
         </div>
       </nav>
       <Dialog
@@ -177,7 +193,7 @@ export default function Navbar() {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/error" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img className="h-8 w-auto" src={mmmLogo} alt="" />
             </a>
@@ -219,34 +235,45 @@ export default function Navbar() {
                   )}
                 </Disclosure>
                 <a
-                  href="#"
+                  href="/error"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Features
                 </a>
                 <a
-                  href="#"
+                  href="/error"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Marketplace
                 </a>
                 <a
-                  href="#"
+                  href="/error"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Company
                 </a>
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+                <Profile />
+                {isAuthenticated ? (
+                  <button
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    onClick={() => logout()}
+                  >
+                    Log Out
+                  </button>
+                ) : (
+                  <button
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    onClick={() => loginWithRedirect()}
+                  >
+                    Log In
+                  </button>
+                )}
               </div>
             </div>
           </div>
+          {/* </div> */}
         </Dialog.Panel>
       </Dialog>
     </header>

@@ -6,6 +6,6 @@ import { io } from "socket.io-client";
 // deploy home:
 // const rtConnection = io('ws://192.168.56.1:5000')
 // deploy render:
-const rtConnection = io('https://makemeamillonarie-be.onrender.com:10000')
+const rtConnection = io('https://makemeamillonarie-be.onrender.com')
 
 export { rtConnection }

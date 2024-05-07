@@ -44,7 +44,7 @@ function Chat() {
 
   return (
     <div id="chat-container">
-      <div class="bg-white shadow-md rounded-lg max-w-lg w-full">
+      <div class="bg-white shadow-md rounded-lg w-full">
         <div class="p-4 border-b bg-fuchsia-900 text-white rounded-t-lg flex justify-between items-center">
           <p class="text-lg font-semibold">
             {isConnected ? "ONLINE:" : "OFFLINE:"}

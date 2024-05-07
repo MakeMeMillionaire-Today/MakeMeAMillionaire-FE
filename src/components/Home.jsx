@@ -12,16 +12,20 @@ const Home = () => {
   });
 
   return (
-    <div className="grid grid-cols-3">
-      <div className="col-span-1">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="md:col-span-1">
         <div className="grid grid-cols-1 gap-4">
           <div className="flex justify-center">
-            <img class="rounded max-w-sm h-20" src={mmmLogo} alt="Extra large avatar" />
+            <img
+              className="rounded max-w-sm h-20"
+              src={mmmLogo}
+              alt="Extra large avatar"
+            />
           </div>
           <Chat />
         </div>
       </div>
-      <div className="col-span-2">
+      <div className="md:col-span-2">
         <MainCanvas matrix={matrix} />
       </div>
     </div>

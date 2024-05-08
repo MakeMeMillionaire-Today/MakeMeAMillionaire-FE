@@ -36,7 +36,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE.md para más d
 --
 
 📝 Deploy Render
-https://make-me-amillionaire-fe.vercel.app
+https://make-me-a-millionaire-fe.vercel.app
 
 📢 Agradecimientos
 gratitud a personas, organizaciones, o cualquier cosa que haya inspirado tu trabajo y proyecto.

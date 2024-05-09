@@ -3,10 +3,11 @@ import { MainCanvas } from "./MainCanvas";
 import { rtConnection } from "../service/socket";
 import Chat from "./Chat";
 import mmmLogo from "../assets/mmmLogo.png";
+import Loader from "./Loader";
 
 const Home = () => {
   const [matrix, setMatrix] = useState([[]]);
-
+console.log('matrix, -->', matrix)
   rtConnection.on("/canvas", (data) => {
     setMatrix(data);
   });
@@ -26,7 +27,13 @@ const Home = () => {
         </div>
       </div>
       <div className="md:col-span-2">
-        <MainCanvas matrix={matrix} />
+        {
+          matrix.length > 2  ? 
+            <MainCanvas matrix={matrix}/> : 
+            <div className="flex justify-center items-center h-full">
+              <Loader />
+            </div>
+        }
       </div>
     </div>
   );

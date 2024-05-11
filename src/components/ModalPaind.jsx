@@ -20,7 +20,7 @@ initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
 const createPreference = async () => {
   setLoader(true)
   try {
-      const response = await fetch("http://localhost:3000/create_preference", {
+      const response = await fetch("https://mmm-be.onrender.com/create_preference", {
           method: "POST",
           headers: {
               "Content-Type": "application/json"

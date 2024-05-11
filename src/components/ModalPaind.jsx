@@ -13,7 +13,11 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
   console.log('loader ->', loader)
 
 // MERCADO PAGO:
-initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
+//--> in local:
+// initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
+//   locale: 'es-AR',
+// });
+initMercadoPago(process.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
   locale: 'es-AR',
 });
 

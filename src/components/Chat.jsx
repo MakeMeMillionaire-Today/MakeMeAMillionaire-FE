@@ -3,7 +3,7 @@ import { rtConnection } from "../service/socket";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function Chat() {
-  const { user, isAuthenticated} = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect} = useAuth0();
   const [isConnected, setIsConnected] = useState(false);
   const [newMessaje, setNewMessaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
@@ -74,7 +74,7 @@ function Chat() {
           <button
             id="send-button"
             class="bg-fuchsia-900 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
-            onClick={isAuthenticated ? sendMessaje : messageLogin}
+            onClick={isAuthenticated ? sendMessaje : loginWithRedirect}
           >
             Send
           </button>

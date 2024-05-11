@@ -1,11 +1,52 @@
 import { useEffect, useRef, useState } from "react";
 import { rtConnection } from "../service/socket";
 import { useAuth0 } from "@auth0/auth0-react";
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import Loader from "./Loader";
 
 const ModalPaint = ({ showModal, col, row, dataItem }) => {
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [paintImg, setPaintImg] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [loader, setLoader] = useState(false)
+  console.log('loader ->', loader)
+
+// MERCADO PAGO:
+initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
+  locale: 'es-AR',
+});
+
+const createPreference = async () => {
+  setLoader(true)
+  try {
+      const response = await fetch("http://localhost:3000/create_preference", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              title: 'MMM Paint',
+              quantity: 1,
+              price: 100,
+          })
+      });
+      const data = await response.json();
+      const { id } = data;
+      setLoader(false)
+      return id;
+  } catch (e) {
+      console.log(e);
+  }
+  
+};
+
+const handleBuy = async () => {
+    const id = await createPreference();
+    if (id) {
+        setPreferenceId(id)
+    }
+};
 
   const canvasRef = useRef(null);
   let isDrawing = false;
@@ -56,10 +97,6 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
   const handleCloseModal = () => {
     showModal(false);
   };
-
-  const messageLogin = () => {
-    return alert("Pleace! Log In!");
-  }
 
   // Conditional rendering of content (image or canvas)
   const content = dataItem?.image ? (
@@ -176,8 +213,9 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
                   </button>
                 </div>
                 <div className="flex-1 group">
+
                   <button
-                    onClick={isAuthenticated ? exportImage : messageLogin}
+                    onClick={isAuthenticated ? handleBuy : loginWithRedirect}
                     className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
                   >
                     <span className="block px-1 pt-1 pb-1">
@@ -189,6 +227,7 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
                 </div>
               </div>
             )}
+            {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} />}
           </div>
         </div>
       </div>

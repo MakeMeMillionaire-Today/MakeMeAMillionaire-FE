@@ -7,7 +7,6 @@ import Loader from "./Loader";
 
 const Home = () => {
   const [matrix, setMatrix] = useState([[]]);
-console.log('matrix, -->', matrix)
   rtConnection.on("/canvas", (data) => {
     setMatrix(data);
   });

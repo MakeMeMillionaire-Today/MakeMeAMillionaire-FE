@@ -9,8 +9,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <Auth0Provider
-        domain="gabrielsuarez.us.auth0.com"
-        clientId="1tEQGAeDQgYMZqJBAC4ZEZNDxDQ1qyJU"
+        domain={import.meta.env.VITE_DOMAIN}
+        clientId={import.meta.env.VITE_CLIENT_ID}
         redirectUri={window.location.origin}
       >
         <App />

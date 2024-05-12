@@ -10,16 +10,12 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
   const [imageURL, setImageURL] = useState("");
   const [preferenceId, setPreferenceId] = useState(null);
   const [loader, setLoader] = useState(false)
-  console.log('loader ->', loader)
 
 // MERCADO PAGO:
-//--> in local:
-// initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
-//   locale: 'es-AR',
-// });
-initMercadoPago(process.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
+initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
   locale: 'es-AR',
 });
+
 
 const createPreference = async () => {
   setLoader(true)

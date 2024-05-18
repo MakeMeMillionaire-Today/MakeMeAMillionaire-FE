@@ -9,8 +9,7 @@ const MainCanvas = ({ matrix }) => {
   const [dataItem, setDataItem] = useState({});
 
   // Handle area:
-  const handleClick =
-    ({ row, col, colItem }) =>
+  const handleClick = ({ row, col, colItem }) =>
     () => {
       setDataItem(colItem);
       setModalY(row);

@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -17,6 +17,7 @@ import {
 import mmmLogo from "../assets/mmmLogo.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "./Profile";
+import Coin from "./Coint";
 
 const products = [
   {
@@ -60,8 +61,35 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const checkUser = async () => {
+    try {
+        const response = await fetch("http://localhost:3000/auth", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: user.name,
+                email: user.email,
+                coin: 100
+            })
+        });
+        const data = await response.json();
+        return data;
+    } catch (e) {
+        console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      checkUser();
+    }
+  }, [isAuthenticated, user]);
+
 
   return (
     <header className="fixed bottom-0 left-0 w-full bg-gray-200 text-white text-center">
@@ -159,13 +187,14 @@ export default function Navbar() {
             FUQ
           </a>
           <a
-            href="/error"
+            href="/bank"
             className="text-sm font-semibold leading-6 text-fuchsia-900"
           >
-            Resources
+            Bank Coin
           </a>
         </Popover.Group>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end g-1">
+          <Coin userName={isAuthenticated ? user.name : null}/>
           <Profile />
           {isAuthenticated ? (
             <button
@@ -250,7 +279,7 @@ export default function Navbar() {
                   href="/error"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-fuchsia-900 hover:bg-gray-50"
                 >
-                  Resources
+                  Bank Coin
                 </a>
               </div>
               <div className="flex items-center justify-between py-6">

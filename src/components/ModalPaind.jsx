@@ -1,53 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import { rtConnection } from "../service/socket";
 import { useAuth0 } from "@auth0/auth0-react";
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
-import Loader from "./Loader";
 
 const ModalPaint = ({ showModal, col, row, dataItem }) => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [paintImg, setPaintImg] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [preferenceId, setPreferenceId] = useState(null);
-  const [loader, setLoader] = useState(false)
+  const [coin, setCoin] = useState(0);
 
-// MERCADO PAGO:
-initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
-  locale: 'es-AR',
-});
+  const updateAndCheckCoin = () => {
+    rtConnection.emit("auth_coin", { username: user.name });
 
-
-const createPreference = async () => {
-  setLoader(true)
-  try {
-      const response = await fetch("https://mmm-be.onrender.com/create_preference", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-              title: 'MMM Paint',
-              quantity: 1,
-              price: 100,
-          })
+    rtConnection.on("auth_coin", (data) => {
+      const newCoinValue = data.coin - 100;
+      rtConnection.emit("auth_coin_update", {
+        username: user.name,
+        amount: newCoinValue,
       });
-      const data = await response.json();
-      const { id } = data;
-      setLoader(false)
-      return id;
-  } catch (e) {
-      console.log(e);
-  }
-  
-};
+      rtConnection.on("auth_coin_update", (updatedData) => {
+        setCoin(updatedData.coin);
+      });
+    });
+  };
 
-const handleBuy = async () => {
-    const id = await createPreference();
-    if (id) {
-        setPreferenceId(id)
-    }
-};
+  const handleBuy = () => {
+    updateAndCheckCoin();
+    exportImage();
+  };
 
+  // ************ TOOL DRAWER *************
   const canvasRef = useRef(null);
   let isDrawing = false;
 
@@ -78,6 +59,7 @@ const handleBuy = async () => {
     isDrawing = false;
   };
 
+  // ************ EXPORT FILE *************
   const exportImage = () => {
     const canvas = canvasRef.current;
     const image = canvas.toDataURL("image/png");
@@ -98,7 +80,7 @@ const handleBuy = async () => {
     showModal(false);
   };
 
-  // Conditional rendering of content (image or canvas)
+  // ************ CONDITIONAL RENDERING (image or canvas) *************
   const content = dataItem?.image ? (
     <img src={dataItem.image} alt="Previous Image" />
   ) : (
@@ -113,7 +95,7 @@ const handleBuy = async () => {
     />
   );
 
-  // handle data to backend:
+  // ************ HANDLE DATA TO BACKEND *************
   useEffect(() => {
     const sendImageData = () => {
       if (imageURL) {
@@ -155,7 +137,8 @@ const handleBuy = async () => {
                   role="alert"
                 >
                   <span className="font-medium">Sorry!</span> art existing...{" "}
-                  <span className="font-medium">Created for:</span> {dataItem.userName}
+                  <span className="font-medium">Created for:</span>{" "}
+                  {dataItem.userName}
                 </div>
                 <div className="flex-1 group">
                   <button
@@ -213,7 +196,6 @@ const handleBuy = async () => {
                   </button>
                 </div>
                 <div className="flex-1 group">
-
                   <button
                     onClick={isAuthenticated ? handleBuy : loginWithRedirect}
                     className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
@@ -227,7 +209,6 @@ const handleBuy = async () => {
                 </div>
               </div>
             )}
-            {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} />}
           </div>
         </div>
       </div>

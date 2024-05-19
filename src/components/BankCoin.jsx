@@ -16,7 +16,7 @@ export default function BankCoin() {
   const createPreference = async () => {
     try {
       const response = await fetch(
-        "https://mmm-be.onrender.com/create_preference",
+        "https://makemeamillionaire-be.onrender.com/create_preference",
         {
           method: "POST",
           headers: {

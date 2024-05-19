@@ -66,7 +66,7 @@ export default function Navbar() {
 
   const checkUser = async () => {
     try {
-        const response = await fetch("https://mmm-be.onrender.com/auth", {
+        const response = await fetch("https://makemeamillionaire-be.onrender.com/auth", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

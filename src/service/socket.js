@@ -9,6 +9,6 @@ import { io } from "socket.io-client";
 // old deploy render:
 // const rtConnection = io('https://makemeamillonarie-be.onrender.com')
 // new render deploy:
-const rtConnection = io('https://mmm-be.onrender.com')
+const rtConnection = io('https://makemeamillionaire-be.onrender.com')
 
 export { rtConnection }

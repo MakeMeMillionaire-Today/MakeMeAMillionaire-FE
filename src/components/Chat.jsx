@@ -3,7 +3,7 @@ import { rtConnection } from "../service/socket";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function Chat() {
-  const { user, isAuthenticated, loginWithRedirect} = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [isConnected, setIsConnected] = useState(false);
   const [newMessaje, setNewMessaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
@@ -21,9 +21,6 @@ function Chat() {
       sendMessaje();
     }
   };
-  const messageLogin = () => {
-    return alert("Pleace! Log In!");
-  }
   //-> scroll down every time messages are updated:
   useEffect(() => {
     if (chatboxRef.current) {
@@ -47,7 +44,7 @@ function Chat() {
       <div class="bg-white shadow-md rounded-lg w-full">
         <div class="p-4 border-b bg-fuchsia-900 text-white rounded-t-lg flex justify-between items-center">
           <p class="text-lg font-semibold">
-            {isConnected ? "ONLINE:" : "OFFLINE:"}
+            {isConnected ? "Online:" : "Offline:"}
           </p>
         </div>
 

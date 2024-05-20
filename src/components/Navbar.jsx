@@ -14,6 +14,7 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+import { Link } from 'react-router-dom';
 import mmmLogo from "../assets/mmmLogo.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "./Profile";
@@ -98,10 +99,10 @@ export default function Navbar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
+          <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Make me a millionaire</span>
             <img className="h-12 w-32" src={mmmLogo} alt="" />
-          </a>
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -143,13 +144,13 @@ export default function Navbar() {
                         />
                       </div>
                       <div className="flex-auto">
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.href}
                           className="block font-semibold text-gray-900"
                         >
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </Link>
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -157,9 +158,9 @@ export default function Navbar() {
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
                   {callsToAction.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                     >
                       <item.icon
@@ -167,31 +168,31 @@ export default function Navbar() {
                         aria-hidden="true"
                       />
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </Popover.Panel>
             </Transition>
           </Popover>
 
-          <a
-            href="/error"
+          <Link
+            to="/error"
             className="text-sm font-semibold leading-6 text-fuchsia-900"
           >
             Space List
-          </a>
-          <a
-            href="/error"
+          </Link>
+          <Link
+            to="/error"
             className="text-sm font-semibold leading-6 text-fuchsia-900"
           >
             FUQ
-          </a>
-          <a
-            href="/bank"
+          </Link>
+          <Link
+            to="/bank"
             className="text-sm font-semibold leading-6 text-fuchsia-900"
           >
             Bank Coin
-          </a>
+          </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end g-1">
           <Coin userName={isAuthenticated ? user.name : null}/>
@@ -222,10 +223,10 @@ export default function Navbar() {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="/error" className="-m-1.5 p-1.5">
+            <Link to="/error" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img className="h-12 w-32" src={mmmLogo} alt="" />
-            </a>
+            </Link>
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-fuchsia-900"
@@ -263,24 +264,27 @@ export default function Navbar() {
                     </>
                   )}
                 </Disclosure>
-                <a
-                  href="/error"
+                <Link
+                  to="/error"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-fuchsia-900 hover:bg-gray-50"
                 >
                   Space List
-                </a>
-                <a
-                  href="/error"
+                </Link>
+                <Link
+                  to="/error"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-fuchsia-900 hover:bg-gray-50"
                 >
                   FUQ
-                </a>
-                <a
-                  href="/error"
+                </Link>
+                <Link
+                  to="/error"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-fuchsia-900 hover:bg-gray-50"
                 >
                   Bank Coin
-                </a>
+                </Link>
+              </div>
+              <div className="flex items-center justify-between py-6">
+                <Coin userName={isAuthenticated ? user.name : null}/>
               </div>
               <div className="flex items-center justify-between py-6">
                 <Profile />

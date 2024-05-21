@@ -17,8 +17,6 @@ function App() {
         <Route path="/" element={<Home imageURL={imageURL} />} />
         <Route path="/bank" element={<BankCoin />} />
         <Route path="/bank/success" element={<SuccessPage />} />
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
         <Route path="/error" element={<ErrorPage />} />
       </Routes>
       <div>

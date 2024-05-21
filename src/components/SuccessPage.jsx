@@ -1,34 +1,38 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import succesfullyImg from "../assets/successfullyIcon.png";
 import { rtConnection } from "../service/socket";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useLocation } from 'react-router-dom';
 
 const SuccessPage = () => {
   const { user, isLoading } = useAuth0();
+  console.log('user --->', user, isLoading)
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const status = queryParams.get('status');
+  const [coin, setCoin] = useState(0);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const statusParam = params.get("collection_status");
+    if (!isLoading && user && status === "approved") {
+      const updateAndCheckCoin = () => {
+        rtConnection.emit("auth_coin", { username: user.name });
+        rtConnection.on("auth_coin", (data) => {
+          const newCoinValue = data.coin + 100;
+          rtConnection.emit("auth_coin_update", {
+            username: user.name,
+            amount: newCoinValue,
+          });
+          rtConnection.on("auth_coin_update", (updatedData) => {
+            setCoin(updatedData.coin);
+          });
+        });
+      };
 
-    const updateAndCheckCoin = () => {
-      rtConnection.emit("auth_coin", { username: user.name });
-      rtConnection.on("auth_coin", (data) => {
-        const newCoinValue = data.coin + 100;
-        rtConnection.emit("auth_coin_update", {
-          username: user.name,
-          amount: newCoinValue,
-        });
-        rtConnection.on("auth_coin_update", (updatedData) => {
-          setCoin(updatedData.coin);
-        });
-      });
-    };
-    if (!isLoading && statusParam == "approved") {
       updateAndCheckCoin();
-    } else {
+    } else if (!isLoading && user) {
       console.log("error from pay!");
     }
-  }, [user]);
+  }, [isLoading, user, status]);
 
   return (
     <div className="md:px-44 px-4 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
@@ -39,6 +43,9 @@ const SuccessPage = () => {
               <h1 className="my-4 text-gray-800 font-bold text-2xl">
                 Your Payment has been made successfully!
               </h1>
+              <p className="my-4 text-gray-800">
+                Now your 'coin' is: {coin}
+              </p>
               <p className="my-4 text-gray-800">
                 Return to the dashboard to view your art.
               </p>

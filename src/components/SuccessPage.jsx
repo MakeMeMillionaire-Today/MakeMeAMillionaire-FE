@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 
 const SuccessPage = () => {
   const { user, isLoading } = useAuth0();
-  console.log('user --->', user, isLoading)
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const status = queryParams.get('status');

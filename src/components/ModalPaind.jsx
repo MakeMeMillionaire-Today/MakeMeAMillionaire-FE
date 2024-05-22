@@ -5,7 +5,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 const ModalPaint = ({ showModal, col, row, dataItem }) => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [paintImg, setPaintImg] = useState("");
-  const [imageURL, setImageURL] = useState("");
   const [coin, setCoin] = useState(0);
 
   const updateAndCheckCoin = () => {
@@ -66,21 +65,23 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
     setPaintImg(image);
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onload = () => {
-      const base64Image = reader.result?.split(",")[1];
-      setImageURL(base64Image);
+    reader.onloadend = () => {
+      const base64String = reader.result.split(",")[1];
+      setPaintImg(`data:image/png;base64,${base64String}`);
     };
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleCloseModal = () => {
     showModal(false);
   };
 
-  // ************ CONDITIONAL RENDERING (image or canvas) *************
+  // ************ CONDITIONAL RENDERING EXISTENT(image or canvas) *************
   const content = dataItem?.image ? (
     <img src={dataItem.image} alt="Previous Image" />
   ) : (
@@ -98,31 +99,20 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
   // ************ HANDLE DATA TO BACKEND *************
   useEffect(() => {
     const sendImageData = () => {
-      if (imageURL) {
+      if (paintImg !== "") {
         rtConnection.emit("/canvas/update", {
           y: row,
           x: col,
+          image: paintImg,
           userName: user.name,
           email: user.email,
         });
-        alert("the image has been saved!");
+        alert("the paint has been saved!");
         handleCloseModal();
-      } else {
-        if (paintImg !== "") {
-          rtConnection.emit("/canvas/update", {
-            y: row,
-            x: col,
-            image: paintImg,
-            userName: user.name,
-            email: user.email,
-          });
-          alert("the canvas has been saved!");
-          handleCloseModal();
-        }
       }
     };
     sendImageData();
-  }, [paintImg, row, col, imageURL]);
+  }, [paintImg, row, col]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">

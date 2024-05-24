@@ -66,6 +66,8 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
   };
 
   const handleImageUpload = (event) => {
+    // Descuento de coin:
+    updateAndCheckCoin();
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -167,23 +169,11 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
                         id="dropzone-file"
                         type="file"
                         accept="image/*"
-                        onChange={handleImageUpload}
+                        onChange={isAuthenticated ? handleImageUpload : loginWithRedirect}
                         className="hidden"
                       />
                     </label>
                   </div>
-                </div>
-                <div className="flex-1 group">
-                  <button
-                    onClick={handleCloseModal}
-                    className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
-                  >
-                    <span className="block px-1 pt-1 pb-1">
-                      <i className="far fa-times-circle text-2xl pt-1 mb-1 block"></i>
-                      <span className="block text-xs pb-2">Close</span>
-                      <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
-                    </span>
-                  </button>
                 </div>
                 <div className="flex-1 group">
                   <button
@@ -193,6 +183,18 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
                     <span className="block px-1 pt-1 pb-1">
                       <i className="far fa-share-square text-2xl pt-1 mb-1 block"></i>
                       <span className="block text-xs pb-2">Save</span>
+                      <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
+                    </span>
+                  </button>
+                </div>
+                <div className="flex-1 group">
+                  <button
+                    onClick={handleCloseModal}
+                    className="flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400 group-hover:text-indigo-500"
+                  >
+                    <span className="block px-1 pt-1 pb-1">
+                      <i className="far fa-times-circle text-2xl pt-1 mb-1 block"></i>
+                      <span className="block text-xs pb-2">Close</span>
                       <span className="block w-5 mx-auto h-1 group-hover:bg-indigo-500 rounded-full"></span>
                     </span>
                   </button>

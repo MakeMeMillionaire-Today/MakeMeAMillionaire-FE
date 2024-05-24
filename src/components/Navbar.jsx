@@ -93,7 +93,7 @@ export default function Navbar() {
 
 
   return (
-    <header className="fixed bottom-0 left-0 w-full bg-gray-200 text-white text-center">
+    <header className="fixed bottom-0 left-0 w-full bg-gray-200 text-center">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"

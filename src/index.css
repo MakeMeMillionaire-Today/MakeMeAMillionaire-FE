@@ -14,10 +14,17 @@ body {
   font-style: normal;
 }
 
-/* //-> EFFECT HOVER */
+/* //-> STYLE SQUARE */
+.square-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .square {
   transition: transform 1s ease;
 }
+
 .square:hover {
   background-color: white;
   transform: scale(3);

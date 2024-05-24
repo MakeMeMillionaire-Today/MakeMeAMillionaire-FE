@@ -9,7 +9,8 @@ const MainCanvas = ({ matrix }) => {
   const [dataItem, setDataItem] = useState({});
 
   // Handle area:
-  const handleClick = ({ row, col, colItem }) =>
+  const handleClick =
+    ({ row, col, colItem }) =>
     () => {
       setDataItem(colItem);
       setModalY(row);
@@ -44,14 +45,13 @@ const MainCanvas = ({ matrix }) => {
   // const selectedHeight = (maxY - minY + 1) * 10;
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="square-container">
       {matrix.map((row, y) =>
         row.map((colItem, x) => (
           <div
             key={`${x}-${y}`}
             className="square"
             style={{
-              position: "absolute",
               top: y * SIZE + "px",
               left: x * SIZE + "px",
               width: SIZE + "px",

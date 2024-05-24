@@ -119,7 +119,7 @@ const ModalPaint = ({ showModal, col, row, dataItem }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
       <div className="bg-white p-5 rounded flex flex-col justify-center item-center gap-5">
-        <div className="flex justify-center items-center">{content}</div>
+        <div className="flex justify-center items-center max-w-40 ml-24">{content}</div>
         <div className="w-full max-w-md mx-auto">
           <div className="px-7 bg-white shadow-lg rounded-2xl">
             {dataItem?.image ? (

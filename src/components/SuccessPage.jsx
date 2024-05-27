@@ -12,11 +12,12 @@ const SuccessPage = () => {
   const [coin, setCoin] = useState(0);
 
   useEffect(() => {
-    if (!isLoading && user && status === "approved") {
+    const storedAmount = localStorage.getItem('amount');
+    if (!isLoading && user && status === "approved" && storedAmount) {
       const updateAndCheckCoin = () => {
         rtConnection.emit("auth_coin", { username: user.name });
         rtConnection.on("auth_coin", (data) => {
-          const newCoinValue = data.coin + 100;
+          const newCoinValue = data.coin + storedAmount;
           rtConnection.emit("auth_coin_update", {
             username: user.name,
             amount: newCoinValue,

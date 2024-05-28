@@ -2,11 +2,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { CalendarDaysIcon, HandRaisedIcon } from "@heroicons/react/24/outline";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { useState } from "react";
+import PayPalButton from "./PaypalButton";
+import Loader from "./Loader";
 
 export default function BankCoin() {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const [preferenceId, setPreferenceId] = useState(null);
   const [amount, setAmount] = useState("");
+  const [preferencePayPal, setPreferencePayPal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // MERCADO PAGO:
   initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
@@ -38,11 +42,14 @@ export default function BankCoin() {
   };
 
   const handleBuy = async () => {
-    localStorage.setItem('amount', amount);
+    localStorage.setItem("amount", amount);
+    setPreferencePayPal(true);
+    setIsLoading(true);
     const id = await createPreference();
     if (id) {
       setPreferenceId(id);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -54,7 +61,7 @@ export default function BankCoin() {
               Bank Coin
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-300">
-              Enter amount: 
+              Enter amount:
             </p>
             <div className="mt-6 flex max-w-md gap-x-4">
               <label htmlFor="amount-address" className="sr-only">
@@ -79,9 +86,16 @@ export default function BankCoin() {
                 Pay
               </button>
             </div>
-            <div>
-              {preferenceId && (
-                <Wallet initialization={{ preferenceId: preferenceId }} />
+            <div className="mt-4">
+              {preferencePayPal ? (
+                <PayPalButton totalValue={"1000"} invoice={"Membrecia"} />
+              ) : null}
+              {isLoading ? (
+                <Loader />
+              ) : (
+                preferenceId && (
+                  <Wallet initialization={{ preferenceId: preferenceId }} />
+                )
               )}
             </div>
           </div>
@@ -95,7 +109,8 @@ export default function BankCoin() {
               </div>
               <dt className="mt-4 font-semibold text-white">Recharge</dt>
               <dd className="mt-2 leading-7 text-gray-400">
-                If you ran out of coin, it's time to recharge by adding the amount you like.
+                If you ran out of coin, it's time to recharge by adding the
+                amount you like.
               </dd>
             </div>
             <div className="flex flex-col items-start">

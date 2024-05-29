@@ -23,6 +23,24 @@ const Home = () => {
               alt="Extra large avatar"
             />
           </div>
+
+          <div className="text-center">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">¿Que es Make Me a Millionaire?</h1>
+            <p className="mt-6 text-base leading-8 text-gray-600">
+              La inspiración para "<strong>Make Me a Millionaire Today</strong>" provino de la visión de transformar la vida de los artistas. 
+              Sabíamos que, aunque el camino para convertirse en millonario puede ser largo y desafiante, 
+              queríamos que nuestra plataforma simbolizara una oportunidad real y tangible para que los artistas comenzaran a construir ese camino desde hoy.
+            </p>
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">El Concepto de Pixeles</h1>
+            <p className="mt-6 text-base leading-8 text-gray-600">
+              La idea de vender áreas de píxeles esta enfocado en crear un espacio donde <strong>cada píxel tiene valor</strong> y cada artista puede comprar 
+              y reclamar su pequeño trozo del sitio para exhibir su arte. 
+              Al hacer esto, no solo obtienen visibilidad, sino que también contribuyen a una comunidad más amplia y colaborativa.
+            </p>
+          </div>
+
           <Chat />
 
           <div className="sm:flex sm:items-start">

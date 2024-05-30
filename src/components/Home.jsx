@@ -5,6 +5,7 @@ import Chat from "./Chat";
 import mmmLogo from "../assets/mmmLogo.png";
 import Loader from "./Loader";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import backgroundImg from '../assets/background3.png'
 
 const Home = () => {
   const [matrix, setMatrix] = useState([[]]);
@@ -14,7 +15,7 @@ const Home = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="md:col-span-1">
+      <div className="md:col-span-1" style={{ backgroundImage: `url(${backgroundImg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className="grid grid-cols-1 gap-4">
           <div className="flex justify-center">
             <img
@@ -59,6 +60,7 @@ const Home = () => {
               </div>
             </div>
           </div>
+
           <div className="sm:flex sm:items-start">
             <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
               <ExclamationTriangleIcon

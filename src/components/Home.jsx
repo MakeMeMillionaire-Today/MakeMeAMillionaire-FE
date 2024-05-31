@@ -83,7 +83,7 @@ const Home = () => {
         {matrix.length > 2 ? (
           <MainCanvas matrix={matrix} />
         ) : (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex justify-center my-40">
             <Loader />
           </div>
         )}

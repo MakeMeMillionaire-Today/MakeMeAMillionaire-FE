@@ -41,7 +41,7 @@ function Chat() {
 
   return (
     <div id="chat-container">
-      <div class="bg-white shadow-md rounded-lg w-full">
+      <div class="bg-transparent backdrop-blur-sm shadow-md rounded-lg w-full">
         <div class="p-4 border-b bg-fuchsia-900 text-white rounded-t-lg flex justify-between items-center">
           <p class="text-lg font-semibold">
             {isConnected ? "Online:" : "Offline:"}
@@ -70,7 +70,7 @@ function Chat() {
           />
           <button
             id="send-button"
-            class="bg-fuchsia-900 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
+            class="bg-fuchsia-900 text-white px-4 py-2 rounded-r-md hover:bg-violet-500 transition duration-300"
             onClick={isAuthenticated ? sendMessaje : loginWithRedirect}
           >
             Send
